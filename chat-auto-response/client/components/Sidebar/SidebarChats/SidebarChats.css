@@ -1,0 +1,58 @@
+.chat-item {
+  display: flex;
+  padding: 10px;
+  align-items: center;
+  border-bottom: 1px solid #444;
+  cursor: pointer;
+}
+
+.chat-item:hover {
+  background-color: #3c3c3c;
+}
+
+.chat-avatar {
+  width: 40px;
+  height: 40px;
+  background-color: #888;
+  border-radius: 50%;
+  margin-right: 10px;
+}
+
+.chat-info {
+  flex-grow: 1;
+}
+
+.chat-name {
+  font-weight: bold;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: 150px;
+}
+
+.chat-delete-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  margin-left: 10px;
+  display: inline-flex;
+  align-items: center;
+}
+
+.chat-delete-btn img {
+  width: 20px;
+  height: 20px;
+}
+
+.chat-edit-btn {
+  background: none;
+  border: none;
+  color: #007bff;
+  cursor: pointer;
+  margin-left: 10px;
+}
+
+.chat-edit-btn img {
+  width: 20px;
+  height: 20px;
+}

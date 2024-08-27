@@ -1,12 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialChatState = {
-  chats: [
-    { id: 1, name: "Alice Freeman", lastMessage: "How was your meeting?", date: "Aug 17, 2022" },
-    { id: 2, name: "Josefina", lastMessage: "I am going for a walk.", date: "Aug 16, 2022" },
-    { id: 3, name: "Velazquez", lastMessage: "Tell me a joke please.", date: "Aug 14, 2022" },
-  ],
-  selectedChat: "",
+  chats: 0,
+  selectedChat: 0,
 };
 
 export const chatSlice = createSlice({
@@ -16,12 +12,35 @@ export const chatSlice = createSlice({
     showChats(state) {
       state.chats;
     },
+
     selectChat(state, action) {
       state.selectedChat = action.payload;
     },
+
+    existedChats(state, action) {
+      if (action.payload) {
+        state.chats = action.payload;
+      } else {
+        return state;
+      }
+    },
+
+    deleteChat(state, action) {
+      state.chats.filter((chat) => chat.id !== action.payload);
+    },
+
+    updateChat(state, action) {
+      const { id, firstName, lastName } = action.payload;
+      const chat = state.chats.find((chat) => chat.id === id);
+      if (chat) {
+        chat.firstName = firstName;
+        chat.lastName = lastName;
+      }
+    },
+
     addChat(state, action) {
       const existingChats = state.chats.filter((chat) => chat.id === action.payload.id);
-      if (existingChats) {
+      if (!existingChats) {
         return state;
       } else {
         state.chats.push(action.payload);
