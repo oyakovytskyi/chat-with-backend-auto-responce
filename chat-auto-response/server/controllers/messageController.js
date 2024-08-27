@@ -1,6 +1,5 @@
 const { Chat, Message } = require("../models");
 const getRandomQuote = require("../services/quoteService");
-const io = require("../config/socket.io");
 
 const postMessage = async (req, res) => {
   const { id } = req.params;
