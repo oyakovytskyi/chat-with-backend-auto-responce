@@ -1,4 +1,3 @@
-/* eslint-disable no-undef */
 const express = require("express");
 const cors = require("cors");
 const bodyParser = require("body-parser");
@@ -22,8 +21,6 @@ app.use((req, res, next) => {
 });
 
 io.on("connection", (socket) => {
-  console.log("A user connected:", socket.id);
-
   socket.on("sendMessage", ({ chatId, message }) => {
     io.emit("newMessage", { chatId, message });
 

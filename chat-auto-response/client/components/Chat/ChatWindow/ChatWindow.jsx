@@ -26,9 +26,8 @@ export const ChatWindow = () => {
 
   useEffect(() => {
     if (selectedChat?.id) {
-      socket.connect(); // Підключення до сокета при виборі чату
+      socket.connect(); 
 
-      // Слухаємо нові повідомлення
       socket.on("newMessage", (data) => {
         if (data.chatId === selectedChat.id) {
           setMessages((prevMessages) => [...prevMessages, data.message]);
@@ -36,8 +35,8 @@ export const ChatWindow = () => {
       });
 
       return () => {
-        socket.off("newMessage"); // Видаляємо слухач, щоб уникнути дублікатів
-        socket.disconnect(); // Відключаємо сокет, коли чат змінюється
+        socket.off("newMessage");
+        socket.disconnect();
       };
     }
   }, [selectedChat, socket]);
