@@ -3,21 +3,44 @@ import sendSvg from "../../../assets/send.svg";
 import botImg from "../../../assets/user.png";
 import "./ChatWindow.css";
 import { useEffect, useState } from "react";
+import { io } from "socket.io-client";
 
 export const ChatWindow = () => {
   const [messages, setMessages] = useState([]);
   const [messageInput, setMessageInput] = useState("");
   const selectedChat = useSelector((state) => state.chats.selectedChat);
+  const socket = io("http://localhost:3000");
+
 
   useEffect(() => {
     const fetchChat = async () => {
-      const response = await fetch(`http://localhost:3000/chats/${selectedChat.id}`);
-      const chat = await response.json();
-      setMessages(chat.messages);
+      if (selectedChat?.id) {
+        const response = await fetch(`http://localhost:3000/chats/${selectedChat.id}`);
+        const chat = await response.json();
+        setMessages(chat.messages);
+      }
     };
 
     fetchChat();
   }, [selectedChat]);
+
+  useEffect(() => {
+    if (selectedChat?.id) {
+      socket.connect(); // Підключення до сокета при виборі чату
+
+      // Слухаємо нові повідомлення
+      socket.on("newMessage", (data) => {
+        if (data.chatId === selectedChat.id) {
+          setMessages((prevMessages) => [...prevMessages, data.message]);
+        }
+      });
+
+      return () => {
+        socket.off("newMessage"); // Видаляємо слухач, щоб уникнути дублікатів
+        socket.disconnect(); // Відключаємо сокет, коли чат змінюється
+      };
+    }
+  }, [selectedChat, socket]);
 
   const sendMessage = async () => {
     if (!messageInput) {

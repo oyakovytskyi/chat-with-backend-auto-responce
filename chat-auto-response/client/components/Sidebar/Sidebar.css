@@ -30,7 +30,7 @@
 
 .sidebar-img {
   position: sticky;
-  left: 85%;
-  bottom: 20px;
+  top: 25%;
+  left: 90%;
   border-radius: 50%;
 }

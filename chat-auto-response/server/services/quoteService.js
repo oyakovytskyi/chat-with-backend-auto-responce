@@ -3,7 +3,7 @@ const API_KEY = "imyKeXBr+JdFW9UEd0vsjg==o7iSJT4OnCq509Fj";
 
 const getRandomQuote = async () => {
   try {
-    const response = await axios.get("https://api.api-ninjas.com/v1/quotes?category=happiness", {
+    const response = await axios.get("https://api.api-ninjas.com/v1/quotes", {
       headers: { "X-Api-Key": API_KEY },
     });
     if (response.data && response.data.length > 0) {

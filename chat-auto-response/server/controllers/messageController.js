@@ -4,6 +4,7 @@ const getRandomQuote = require("../services/quoteService");
 const postMessage = async (req, res) => {
   const { id } = req.params;
   const { message } = req.body;
+
   try {
     const chat = await Chat.findByPk(id);
     if (!chat) return res.status(404).send("Chat not found.");
@@ -20,6 +21,8 @@ const postMessage = async (req, res) => {
     chat.date = new Date().toLocaleDateString();
     await chat.save();
 
+    req.io.emit("newMessage", { chatId: chat.id, message: userMessage });
+
     setTimeout(async () => {
       try {
         const quote = await getRandomQuote();
@@ -32,7 +35,8 @@ const postMessage = async (req, res) => {
         chat.lastMessage = quote;
         chat.date = new Date().toLocaleDateString();
         await chat.save();
-        res.status(201).json(botMessage);
+
+        req.io.emit("newMessage", { chatId: chat.id, message: botMessage });
       } catch (error) {
         console.error("Error fetching quote:", error);
       }
